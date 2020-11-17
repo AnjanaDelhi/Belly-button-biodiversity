@@ -3,22 +3,46 @@
 d3.json("./data/samples.json").then (data => {
   console.log(data);
 
-  //y-axis
+  //otu_ids
   var otu_ids = data.samples[0].otu_ids;
-  console.log(otu_ids);
+  console.log(`otu_ids: ${otu_ids}`);
 
   //getting the 10 otu_ids as needed 
   var otu_10 = data.samples[0].otu_ids.slice(0, 10).reverse();
   var otu_id = otu_10.map(d => "OTU " + d);
-  //x-axis(only 10 needed)
-  console.log(otu_id);
+  console.log(`otu_id: ${otu_id}`);
 
+  //sample values
   var sampleValues = data.samples[0].sample_values.slice(0,10).reverse();
-  console.log(sampleValues)
+  console.log(`sampleValues: ${sampleValues}`)
 
-  //Labels
-  var labels =  data.samples[0].otu_labels.slice(0,10);
-  console.log(`OTU_labels: ${labels}`)
+  //otu labels
+  var otu_labels =  data.samples[0].otu_labels.slice(0,10);
+  console.log(`OTU_labels: ${otu_labels}`)
+
+  //bar chart
+  var trace = {
+    x: sampleValues,
+    y: otu_id,
+    text: otu_labels,
+    type:"bar",
+    orientation: "h",
+  };
+  var data1 = [trace];
+  var layout = {
+    title: "Top 10 OTU",
+    yaxis:{
+        tickmode:"linear",
+    },
+    margin: {
+        l: 100,
+        r: 100,
+        t: 100,
+        b: 50
+    }
+  };
+  Plotly.newPlot("bar", data1, layout);
+
 })
 
 
