@@ -14,24 +14,24 @@ d3.json("./data/samples.json").then (data => {
 
   //sample values
   var sampleValues = data.samples[0].sample_values.slice(0,10).reverse();
-  console.log(`sampleValues: ${sampleValues}`)
+  console.log(`sampleValues: ${sampleValues}`);
 
   //otu labels
   var otu_labels =  data.samples[0].otu_labels.slice(0,10);
-  console.log(`OTU_labels: ${otu_labels}`)
+  console.log(`OTU_labels: ${otu_labels}`);
 
   //bar chart
-  var trace = {
+  var trace1 = {
     x: sampleValues,
     y: otu_id,
     text: otu_labels,
     type:"bar",
     orientation: "h",
   };
-  var data1 = [trace];
+  var data1 = [trace1];
   var layout = {
     title: "Top 10 OTU",
-    yaxis:{
+    yaxis: {
         tickmode:"linear",
     },
     margin: {
@@ -43,7 +43,28 @@ d3.json("./data/samples.json").then (data => {
   };
   Plotly.newPlot("bar", data1, layout);
 
-})
+  //Bubble chart
+  var trace2 = {
+    x: data.samples[0].otu_ids,
+    y: data.samples[0].sample_values,
+    mode: "markers",
+    marker: {
+        size: data.samples[0].sample_values,
+        color: data.samples[0].otu_ids
+    },
+    text: data.samples[0].otu_labels
+
+  };
+  var data2 = [trace2];
+  var layout2 = {
+    title: "OTU Bubble chart",
+    xaxis:{title: "OTU ID"},
+    height: 500,
+    width: 1000
+  };
+  Plotly.newPlot("bubble", data2, layout2); 
+
+});
 
 
 
